@@ -2,7 +2,7 @@
 
 [WAGMI](https://wagmi.sh/) Connector to connect with Wrapped Smart Contract.
 
-# ⬇️ Install
+# Install
 
 ```bash
 npm install @dcspark/cardano-wsc-wagmi
@@ -14,7 +14,7 @@ or
 yarn add @dcspark/cardano-wsc-wagmi
 ```
 
-# ⭐ Usage
+# Usage
 
 ```javascript
 import { CardanoWSCConnector } from "@dcspark/cardano-wsc-wagmi";
