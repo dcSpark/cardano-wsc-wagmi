@@ -20,11 +20,13 @@ yarn add @dcspark/cardano-wsc-wagmi
 import { CardanoWSCConnector } from "@dcspark/cardano-wsc-wagmi";
 
 const WSCConnector = new CardanoWSCConnector({
-  name: "",
-  network: MilkomedaNetworkName.C1Devnet, // by default Milkomeda C1 Devnet
-  oracleUrl: "",
-  blockfrostKey: "",
-  jsonRpcProviderUrl: "",
+  options: {
+    name: "",
+    network: MilkomedaNetworkName.C1Devnet, // by default Milkomeda C1 Devnet
+    oracleUrl: "",
+    blockfrostKey: "",
+    jsonRpcProviderUrl: "",
+  },
 });
 ```
 
