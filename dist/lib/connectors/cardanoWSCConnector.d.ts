@@ -11,9 +11,11 @@ type CardanoWSCConnectorOptions = {
 /**
  * Connector for [Cardano WSC]
  */
-export declare abstract class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOptions> {
+export declare class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOptions> {
     #private;
-    id: string;
+    readonly ready = true;
+    readonly id: string;
+    readonly name: string;
     constructor({ chains, options: options_ }: {
         chains: Chain[];
         options: CardanoWSCConnectorOptions;

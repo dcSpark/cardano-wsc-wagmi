@@ -6,7 +6,9 @@ import { getAddress } from "ethers/lib/utils.js";
  * Connector for [Cardano WSC]
  */
 export class CardanoWSCConnector extends Connector {
+    ready = true;
     id;
+    name;
     #provider;
     #sdk;
     #previousProvider;
@@ -17,6 +19,7 @@ export class CardanoWSCConnector extends Connector {
         };
         super({ chains, options });
         this.id = options.id;
+        this.name = options.name;
         this.#previousProvider = window?.ethereum;
         const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
         this.#sdk = new WSCLib(network, options_.name, {
