@@ -14,8 +14,10 @@ type CardanoWSCConnectorOptions = {
 /**
  * Connector for [Cardano WSC]
  */
-export abstract class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOptions> {
-  id;
+export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOptions> {
+  readonly ready = true;
+  readonly id;
+  readonly name;
   #provider?: any;
   #sdk;
   #previousProvider;
@@ -27,6 +29,7 @@ export abstract class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCCo
     };
     super({ chains, options });
     this.id = options.id;
+    this.name = options.name;
     this.#previousProvider = window?.ethereum;
 
     const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
