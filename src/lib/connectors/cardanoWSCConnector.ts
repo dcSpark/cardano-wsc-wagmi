@@ -30,6 +30,7 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
     super({ chains, options });
     this.id = options.id;
     this.name = options.name;
+    if (typeof window === "undefined") return;
     this.#previousProvider = window?.ethereum;
 
     const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
@@ -87,7 +88,7 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
 
   async getProvider() {
     if (!this.#provider) {
-      const wsc = await this.#sdk.inject();
+      const wsc = await this.#sdk?.inject();
       if (!wsc) throw new Error("Could not load WSC information");
       this.#provider = wsc;
     }
