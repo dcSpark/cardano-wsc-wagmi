@@ -1,6 +1,6 @@
 {
   "name": "@dcspark/cardano-wsc-wagmi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Wagmi Connector to connect with Wrapped Smart Contract.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "node": ">=10"
   },
   "dependencies": {
-    "milkomeda-wsc": "^0.1.8",
+    "milkomeda-wsc": "0.2.0",
     "tsc-esm-fix": "^2.20.10",
     "wagmi": "^0.12.8"
   },
