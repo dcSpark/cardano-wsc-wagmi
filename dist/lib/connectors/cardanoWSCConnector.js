@@ -12,6 +12,7 @@ export class CardanoWSCConnector extends Connector {
     #provider;
     #sdk;
     #previousProvider;
+    shimDisconnectKey = `${this.id}.shimDisconnect`;
     constructor({ chains, options: options_ }) {
         const options = {
             id: options_.name + "-wsc",
@@ -50,7 +51,9 @@ export class CardanoWSCConnector extends Connector {
     async disconnect() {
         const provider = await this.getProvider();
         // switch back to previous provider
-        window.ethereum = this.#previousProvider;
+        if (typeof window !== "undefined") {
+            window.ethereum = this.#previousProvider;
+        }
         if (!provider?.removeListener)
             return;
         provider.removeListener("accountsChanged", this.onAccountsChanged);
