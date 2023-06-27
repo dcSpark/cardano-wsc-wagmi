@@ -19,10 +19,9 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
   readonly id;
   readonly name;
   #provider?: any;
-  #sdk;
+  // #sdk;
   #previousEVMProvider;
   #previousCardanoProvider;
-  protected shimDisconnectKey = `${this.id}.shimDisconnect`;
 
   constructor({ chains, options: options_ }: { chains: Chain[]; options: CardanoWSCConnectorOptions }) {
     const options = {
@@ -32,16 +31,17 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
     super({ chains, options });
     this.id = options.id;
     this.name = options.name;
+
     if (typeof window === "undefined") return;
     this.#previousEVMProvider = window?.ethereum;
     this.#previousCardanoProvider = window?.cardano;
 
-    const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
-    this.#sdk = new WSCLib(network, options_.name, {
-      oracleUrl: options_.oracleUrl,
-      blockfrostKey: options_.blockfrostKey,
-      jsonRpcProviderUrl: options_.jsonRpcProviderUrl,
-    });
+    // const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
+    // this.#sdk = new WSCLib(network, options_.name, {
+    //   oracleUrl: options_.oracleUrl,
+    //   blockfrostKey: options_.blockfrostKey,
+    //   jsonRpcProviderUrl: options_.jsonRpcProviderUrl,
+    // });
   }
 
   async connect(): Promise<any> {
@@ -68,10 +68,8 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
   async disconnect() {
     const provider = await this.getProvider();
     // switch back to previous provider
-    if (typeof window !== "undefined") {
-      window.ethereum = this.#previousEVMProvider;
-      window.cardano = this.#previousCardanoProvider as any;
-    }
+    window.ethereum = this.#previousEVMProvider;
+    window.cardano = this.#previousCardanoProvider as any;
 
     if (!provider?.removeListener) return;
     provider.removeListener("accountsChanged", this.onAccountsChanged);
@@ -94,7 +92,13 @@ export class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCConnectorOp
 
   async getProvider() {
     if (!this.#provider) {
-      const wsc = await this.#sdk?.inject();
+      const network = this.options.network ?? MilkomedaNetworkName.C1Devnet;
+      const wscLib = new WSCLib(network, this.options.name, {
+        oracleUrl: this.options.oracleUrl,
+        blockfrostKey: this.options.blockfrostKey,
+        jsonRpcProviderUrl: this.options.jsonRpcProviderUrl,
+      });
+      const wsc = await wscLib?.inject();
       if (!wsc) throw new Error("Could not load WSC information");
       this.#provider = wsc;
     }

@@ -16,7 +16,6 @@ export declare class CardanoWSCConnector extends Connector<WSCLib, CardanoWSCCon
     readonly ready = true;
     readonly id: string;
     readonly name: string;
-    protected shimDisconnectKey: string;
     constructor({ chains, options: options_ }: {
         chains: Chain[];
         options: CardanoWSCConnectorOptions;
