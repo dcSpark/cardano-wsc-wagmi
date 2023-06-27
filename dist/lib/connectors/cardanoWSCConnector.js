@@ -11,7 +11,8 @@ export class CardanoWSCConnector extends Connector {
     name;
     #provider;
     #sdk;
-    #previousProvider;
+    #previousEVMProvider;
+    #previousCardanoProvider;
     shimDisconnectKey = `${this.id}.shimDisconnect`;
     constructor({ chains, options: options_ }) {
         const options = {
@@ -23,7 +24,8 @@ export class CardanoWSCConnector extends Connector {
         this.name = options.name;
         if (typeof window === "undefined")
             return;
-        this.#previousProvider = window?.ethereum;
+        this.#previousEVMProvider = window?.ethereum;
+        this.#previousCardanoProvider = window?.cardano;
         const network = options_.network ?? MilkomedaNetworkName.C1Devnet;
         this.#sdk = new WSCLib(network, options_.name, {
             oracleUrl: options_.oracleUrl,
@@ -52,7 +54,8 @@ export class CardanoWSCConnector extends Connector {
         const provider = await this.getProvider();
         // switch back to previous provider
         if (typeof window !== "undefined") {
-            window.ethereum = this.#previousProvider;
+            window.ethereum = this.#previousEVMProvider;
+            window.cardano = this.#previousCardanoProvider;
         }
         if (!provider?.removeListener)
             return;
